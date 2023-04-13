@@ -1,0 +1,126 @@
+{ Fight Initiates
+
+    pHealth: props      eHealth: 50
+    pAttack: props
+    pDefense: props
+}
+{ Turn Order
+    
+    Coin Flip Start?
+    Active Sprite Bold/Underline Name
+    Player can't act on enemy turn
+}
+{ Switch Turns
+
+    if playerTurn (
+        setState(
+            playerTurn: false,
+        )
+    ) else if enemyTurn (
+        setState(
+            playerTurn: true,
+        )
+    )
+}
+{ Enemy Turn
+
+    Attack/Defend(
+        60% eAttack => ()
+        40% eDefend => ()
+    )
+
+    Attack(
+        if sDefend(
+            setTimeout(
+                setState(
+                    action: true
+                    combatEffect: enemyAttack
+                )
+            )
+            endEnemyTurn() =>
+        )
+        if defend(
+            setTimeout(
+                setState(
+                    action: true
+                    combatEffect: enemyAttack
+                )
+            )
+            setState(
+                pHealth: pHealth - (25 - (pDefense * 1.5))
+            )
+        )
+        else(
+            setTimeout(
+                setState(
+                    action: true
+                    combatEffect: enemyAttack
+                )
+            )
+            setState: pHealth - (25 - pDefense)
+        )
+        endEnemyTurn() =>
+    )
+
+    Defend(
+        setTimeout(
+                setState(
+                    action: true
+                    combatEffect: enemyDefend
+                )
+            )
+        setState( eDefend: true )
+    )
+
+    switchTurns() =>
+}
+{ Player Turn
+
+    shake(
+        setState(
+            special: true
+        )
+    )
+
+    swipeRight(
+        setTimeout(
+            if special == true (
+                setState(
+                    action: true
+                    combatEffect: sAttack
+                )
+            )
+        )
+
+        if eDefend (
+            setState(
+                eHealth: eHealth - (pAttack / 2)
+            )
+        ) else (
+            setState(
+                eHealth: eHealth - pAttack
+            )
+        )
+        
+        switchTurns() =>
+    )
+    
+
+    swipeLeft(
+        setTimeout(
+            if special == true (
+                setState(
+                    action: true
+                    combatEffect: sDefend
+                    specialDefend: true
+                )
+            )
+        )
+
+        setState(
+            pDefend: true
+        )
+        
+        switchTurns() =>
+    )
+}
